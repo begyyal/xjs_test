@@ -93,7 +93,7 @@ mt.exe();
 
 [npm-url]: https://npmjs.org/package/xjs-test
 [npm-badge]: https://badgen.net/npm/v/xjs-test
-[ci-url]: https://github.com/begyyal/xjs_tests/actions/workflows/test.yml
-[ci-badge]: https://github.com/begyyal/xjs_tests/actions/workflows/test.yml/badge.svg
-[publish-url]: https://github.com/begyyal/xjs_tests/actions/workflows/publish.yml
-[publish-badge]: https://github.com/begyyal/xjs_tests/actions/workflows/publish.yml/badge.svg
+[ci-url]: https://github.com/begyyal/xjs_test/actions/workflows/test.yml
+[ci-badge]: https://github.com/begyyal/xjs_test/actions/workflows/test.yml/badge.svg
+[publish-url]: https://github.com/begyyal/xjs_test/actions/workflows/publish.yml
+[publish-badge]: https://github.com/begyyal/xjs_test/actions/workflows/publish.yml/badge.svg
