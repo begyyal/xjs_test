@@ -1,6 +1,6 @@
 {
   "name": "xjs-test",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "simple testing framework for typescript modules.",
   "repository": {
     "type": "git",
@@ -19,7 +19,8 @@
   "license": "Apache-2.0",
   "files": [
     "build",
-    "!/build/**/test*"
+    "!/build/**/test*",
+    "/build/*/prcs/test*"
   ],
   "main": "./build/esm/index.js",
   "types": "./build/esm/index.d.ts",
