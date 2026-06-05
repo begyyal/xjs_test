@@ -13,7 +13,7 @@ export class TestCase<C = any> {
         this.errorExpected = true;
         this.errorTest = test;
     }
-    check(valid: boolean, additional?: () => string): void {
+    check(valid: boolean, additional?: () => any): void {
         if (!valid) {
             if (additional) console.error(`[${this.moduleName}.${this.name}] ${additional()}`);
             throw Error(`[${this.moduleName}.${this.name}] "${this._title}" returned false.`);

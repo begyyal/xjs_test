@@ -1,6 +1,6 @@
 {
   "name": "xjs-test",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "simple testing framework for typescript modules.",
   "repository": {
     "type": "git",
