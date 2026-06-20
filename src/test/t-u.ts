@@ -2,7 +2,7 @@ import { s_emptyLogger } from "../func/helper";
 import { ModuleTest } from "../prcs/module-test";
 import { TestCase } from "../prcs/test-case";
 import { TestUnit } from "../prcs/test-unut";
-import { delay, int2array, retry, TimeUnit, toMsec, UArray } from "xjs-common";
+import { delay, int2array, retry, TimeUnit, toMsec, UArray, waitFor } from "xjs-common";
 
 const mt = new ModuleTest("T_U");
 mt.appendUnit("int2array", function (this: TestUnit) {
@@ -78,12 +78,13 @@ mt.appendUnit("retry", function (this: TestUnit<{
     this.appendCase("intervalSec is working.", async function (this: TestCase, c) {
         try {
             await retry(c.cb, {
-                intervalSec: 0.5,
+                intervalSec: 0.6,
                 intervalPredicate: () => c.array.push(Date.now()),
                 errorCriterion: e => e === 1, logger: s_emptyLogger, count: 2
             });
         } catch { }
-        this.check(c.array[2] - c.array[1] >= 500 && c.array[1] - c.array[0] < 500);
+        this.check(c.array[1] - c.array[0] < 600, () => c.array[1] - c.array[0]);
+        this.check(c.array[2] - c.array[1] >= 600, () => c.array[2] - c.array[1]);
     });
 }, { concurrent: true });
 mt.appendUnit("toMsec", function (this: TestUnit) {
@@ -100,17 +101,23 @@ mt.appendUnit("toMsec", function (this: TestUnit) {
         this.check(toMsec(3, TimeUnit.Day) === 3 * 1000 * 60 * 60 * 24);
     });
 });
-// mt.appendUnit("waitFor", function (this: TestUnit) {
-//     this.appendCase("basic functionality.", async function (this: TestCase) {
-//         let a = 0;
-//         setTimeout(() => a = 1, 100);
-//         await waitFor(() => a > 0);
-//         this.check(a === 1);
-//     });
-//     this.appendCase("timeout occurs.", async function (this: TestCase) {
-//         let a = 0;
-//         this.expectError();
-//         await waitFor(() => a > 0, { timeoutMsec: 100 });
-//     });
-// }, { concurrent: true });
+mt.appendUnit("waitFor", function (this: TestUnit) {
+    this.appendCase("basic functionality.", async function (this: TestCase) {
+        let a = 0;
+        setTimeout(() => a = 1, 100);
+        await waitFor(() => a > 0);
+        this.check(a === 1);
+    });
+    this.appendCase("timeout occurs.", async function (this: TestCase) {
+        let a = 0;
+        this.expectError();
+        await waitFor(() => a > 0, { timeoutMsec: 100 });
+    });
+    this.appendCase("set interval msec.", async function (this: TestCase) {
+        let a = 0, b = 0;
+        delay(1).then(() => a++);
+        await waitFor(() => b++ && a > 0, { intervalMsec: 600 });
+        this.check(b === 2);
+    });
+});
 export const T_U = mt;

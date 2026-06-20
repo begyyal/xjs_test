@@ -14,7 +14,8 @@ export class ModuleTest {
         return u;
     }
     async exe(): Promise<void> {
-        await Promise.all(this._units.map(u => u.exe()));
+        for (const u of this._units.filter(u => !u.op?.concurrent)) await u.exe();
+        await Promise.all(this._units.filter(u => !!u.op?.concurrent).map(u => u.exe()));
         console.log([
             `tests in ${this.name} module completed.`.padEnd(40),
             `${this._units.length} units`.padEnd(9),
