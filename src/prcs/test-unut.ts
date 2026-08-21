@@ -4,8 +4,8 @@ import { TestCase } from "./test-case";
 export class TestUnit<C = any> {
     private readonly _cases: TestCase[] = [];
     private contextGen: () => Partial<C> = () => ({});
-    private initalizer: () => MaybePromise;
-    private finalizer: () => MaybePromise;
+    private initalizer?: () => MaybePromise;
+    private finalizer?: () => MaybePromise;
     get caseCount() { return this._cases.length; }
     constructor(
         readonly moduleName: string,
@@ -26,10 +26,10 @@ export class TestUnit<C = any> {
     }
     appendCase(
         title: string,
-        cb: (this: TestCase<C>, c: C) => MaybePromise,
+        cb: (this: TestCase<C>, c: Partial<C>) => MaybePromise,
         op?: { concurrent?: boolean }): void {
         if (this._cases.some(u => u.name === title))
-            throw Error("duplication of test case was detected.");
+            throw new Error("duplication of test case was detected.");
         this._cases.push(new TestCase(this.moduleName, this.name, title, cb, this.contextGen, op));
     }
     setInitializer(initalizer: () => any | Promise<any>): void {
