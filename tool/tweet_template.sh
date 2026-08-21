@@ -3,7 +3,7 @@
 version=$1
 repo_url=$2
 name="xjs-test"
-ext="#javascript #typescript #testing framework"
+ext="#javascript #typescript #testingframework"
 LF=$'\\n'
 text="${name}@v${version} was published.${LF}${repo_url}"
 [ -n "$ext" ] && text=${text}${LF}${ext} || :
